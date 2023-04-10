@@ -23,7 +23,7 @@ ChefTable is a platform for chefs to share their recipes with fellow food enthus
 - Our application will have the following Authorization levels:
   1. ADMIN: has full crud capabilities on all features
   2. Chefs: has full crud on their own Recipes(see below for description) and Ratings and Reveiws(see below for description), But only have read and update privileges    on Restuarant(see below for description) feature.
-  3. users: have full crud capabilities on their own Ratings and Reviews(see below for description), But can only view Recipes and Restuarants.
+  3. Users: have full crud capabilities on their own Ratings and Reviews(see below for description), But can only view Recipes and Restuarants.
 
 - Our application will have the following features:
   1. Recipes: have a couple of attributes within them like a photo of the finished food, ingredients, and procedures. All users can view recipes that are already posted but only users with the authorization level of CHEF can create, edit, and delete recipes.
