@@ -1,5 +1,5 @@
 # Old Title: Film Fanatic(A movie reviewing app)
-# New Title: CookSpace
+# New Title: ChefsTable
 
 #### SECTION: 3
 
@@ -17,8 +17,8 @@ Film Fanatic is the ultimate mobile app for movie enthusiasts and anyone who wan
 
 
 
-## Description and feature list for Cookspace
-CookSpace is an platform for chefs to share their recipes with fellow food enthusiasts. Food enthusiasts can leave a rating and review on these recipes that will impact how many more people a recipe will reach. Now you might ask why would the chefs take time out of their busy days to post a recipe, well in the cutthroat market that is the resturant industry getting discovered is the hardest stage in the business but with our help chefs can cultivate a following and establish a deeper relationship with their soon-to-be long-term customers. Getting to the programming side of things,
+## Description and feature list for ChefsTable
+ChefsTable is an platform for chefs to share their recipes with fellow food enthusiasts. Food enthusiasts can leave a rating and review on these recipes that will impact how many more people a recipe will reach. Now you might ask why would the chefs take time out of their busy days to post a recipe, well in the cutthroat market that is the resturant industry getting discovered is the hardest stage in the business but with our help chefs can cultivate a following and establish a deeper relationship with their soon-to-be long-term customers. Getting to the programming side of things,
 
 - Our application will have the following Authorization levels:
   1. SYSTEM: has full crud capabilities on all features
