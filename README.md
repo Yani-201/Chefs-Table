@@ -21,11 +21,11 @@ Film Fanatic is the ultimate mobile app for movie enthusiasts and anyone who wan
 ChefsTable is an platform for chefs to share their recipes with fellow food enthusiasts. Food enthusiasts can leave a rating and review on these recipes that will impact how many more people a recipe will reach. Now you might ask why would the chefs take time out of their busy days to post a recipe, well in the cutthroat market that is the resturant industry getting discovered is the hardest stage in the business but with our help chefs can cultivate a following and establish a deeper relationship with their soon-to-be long-term customers. Getting to the programming side of things,
 
 - Our application will have the following Authorization levels:
-  1. SYSTEM: has full crud capabilities on all features
+  1. ADMIN: has full crud capabilities on all features
   2. chefs: has full crud on their own Recipes(see below for description) and Ratings and Reveiws(see below for description), But only have read and update privileges    on Restuaran(see below for description)t feature.
   3. users: have full crud capabilities on their own Ratings and Reviews(see below for description), But can only view Recipes and Restuarants.
 
 - Our application will have the following features:
   1. Recipes: have a couple of attributes within them like a photo of the finished food, ingredients, and procedures. All users can view recipes that are already posted but only users with the authorization level of CHEF can create, edit, and delete recipes.
-  2. Resturants: have a couple of attributes like an address, a rating based on collective users(normal or chefs) rating, chefs hired by them, and an address. Only users with SYSTEM level access can create, delete resturant information but chefs can also edit resturant information(When they get hired or fired). All users can view restuarants.
+  2. Resturants: have a couple of attributes like an address, a rating based on collective users(normal or chefs) rating, chefs hired by them, and an address. Only users with ADMIN level access can create, delete resturant information but chefs can also edit resturant information(When they get hired or fired). All users can view restuarants.
   3. Reviews and Ratings: Review has two attributes a mark out of ten and a short comment about the recipe it is posted under. and Rating is referring to the fact that users can rate restaurants out of ten.
