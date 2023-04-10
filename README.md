@@ -1,5 +1,5 @@
 # Old Title: Film Fanatic(A movie reviewing app)
-# New Title: ChefsTable
+# New Title: ChefTable
 
 #### SECTION: 3
 
