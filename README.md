@@ -27,5 +27,5 @@ CookSpace is an platform for chefs to share their recipes with fellow food enthu
 
 - Our application will have the following features:
   1. Recipes: have a couple of attributes within them like a photo of the finished food, ingredients, and procedures. All users can view recipes that are already posted but only users with the authorization level of CHEF can create, edit, and delete recipes.
-  2. Resturants: have a couple of attributes like an address, a rating based on collective users(normal or chefs) rating, chefs hired by them, and an address. Only users with system level access can create, delete resturant information but chefs can also edit resturant information(When they get hired or fired). All users can view restuarants.
+  2. Resturants: have a couple of attributes like an address, a rating based on collective users(normal or chefs) rating, chefs hired by them, and an address. Only users with SYSTEM level access can create, delete resturant information but chefs can also edit resturant information(When they get hired or fired). All users can view restuarants.
   3. Reviews and Ratings: Review has two attributes a mark out of ten and a short comment about the recipe it is posted under. and Rating is referring to the fact that users can rate restaurants out of ten.
