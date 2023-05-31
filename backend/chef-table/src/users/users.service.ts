@@ -16,13 +16,16 @@ export class UsersService {
 
     }
 
-    async createUser(createUserDto: CreateUserDto) {
+    async createUser(createUserDto: CreateUserDto, image?: string) {
         const existingUser = await this.findOne(createUserDto.username, false);
         if(existingUser) {
             throw new BadRequestException('Username already exists', { cause: new Error(), description: 'a user with that username already exists, try a different username.' })
         }
         const newUser = this.usersRepository.create(createUserDto);
         newUser.password = await bcrypt.hash(newUser.password, 10);
+        if (image){
+            newUser.photo = image;
+        }
         return this.usersRepository.save(newUser);
     }
 
@@ -49,7 +52,7 @@ export class UsersService {
         await this.usersRepository.delete(id)
         return {};
     }
-    async changePassword(updateUserDto: UpdateUserDto, user){
+    async changePassword(updateUserDto: UpdateUserDto, user, image?: string){
         let userToBeUpdated = await this.findOneById(user.userId);
         const isPassword = await bcrypt.compare(updateUserDto.oldPassword, userToBeUpdated.password);
         if(!isPassword) {
@@ -62,6 +65,9 @@ export class UsersService {
         if (updateUserDto.newPassword){
             userToBeUpdated.password = await bcrypt.hash(updateUserDto.newPassword, 10);
 
+        }
+        if (image){
+            userToBeUpdated.photo = image;
         }
         await this.usersRepository.save(userToBeUpdated);
     }

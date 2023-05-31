@@ -9,6 +9,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));  // Removes password from user object responses
   app.useStaticAssets(join(__dirname, '../covers'), {prefix: '/covers'})
   app.useStaticAssets(join(__dirname, '../restaurantCovers'), {prefix: '/restaurantCovers'})
+  app.useStaticAssets(join(__dirname, '../profilePhotos'), {prefix: '/profilePhotos'})
+  
   await app.listen(3000);
 }
 bootstrap();
