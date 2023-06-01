@@ -38,188 +38,202 @@ class _RecipeCreationPageState extends State<RecipeCreationPage> {
           onPressed: () => context.go('/recipe'),
         ),
       ),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            // Wrap the Column with SingleChildScrollView
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16),
-                const Text(
-                  'Recipe Name:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                TextFormField(
-                  style: TextStyle(color: Colors.orange),
-                  decoration: const InputDecoration(
-                    hintText: 'Enter name',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      name = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 16),
-                const Text(
-                  'Procedure:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                TextFormField(
-                  style: TextStyle(color: Colors.orange),
-                  decoration: const InputDecoration(
-                    hintText: 'Enter procedure',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      procedure = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 16),
-                const Text(
-                  'Time:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                TextFormField(
-                  style: TextStyle(color: Colors.orange),
-                  decoration: const InputDecoration(
-                    hintText: 'Enter time in minutes',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      time = int.tryParse(value) ?? 0;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Ingredients:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: ingredients.length,
-                  itemBuilder: (context, index) {
-                    return TextFormField(
-                      style: const TextStyle(color: Colors.orange),
-                      decoration: InputDecoration(
-                        hintText: 'Enter ingredient ${index + 1}',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.orange),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.orange),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          ingredients[index] = value;
-                        });
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: addIngredient,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                    onPrimary: Colors.black,
-                  ),
-                  child: Text('Add Ingredient'),
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    // Save recipe logic here
-                    Recipe recipe = Recipe(
-                        id: null,
-                        title: name,
-                        ingredients: ingredients,
-                        procedure: procedure,
-                        time: time);
-                    BlocProvider.of<RecipeBloc>(context)
-                        .add(RecipeCreate(recipe));
-                    context.go('/recipe');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                    onPrimary: Colors.black,
-                  ),
-                  child: Text('Save Recipe'),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Food Image:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                GestureDetector(
-                  onTap: uploadFoodImage,
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
+      body: BlocListener<RecipeBloc, RecipeState>(
+        listener: (context, state) {
+          if (state is RecipeOperationSuccess) {
+            context.go('/recipe');
+          }
+          if (state is RecipeOperationFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.redAccent,
+              content: Text("Recipe Creation failed: ${state.error}"),
+              duration: const Duration(seconds: 3),
+            ));
+            BlocProvider.of<RecipeBloc>(context).add(RecipeLoad());
+          }
+        },
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              // Wrap the Column with SingleChildScrollView
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 16),
+                  const Text(
+                    'Recipe Name:',
+                    style: TextStyle(
                       color: Colors.orange,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: Colors.black,
-                      size: 50,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 8),
+                  TextFormField(
+                    style: TextStyle(color: Colors.orange),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter name',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        name = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  const Text(
+                    'Procedure:',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  TextFormField(
+                    style: TextStyle(color: Colors.orange),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter procedure',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        procedure = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  const Text(
+                    'Time:',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  TextFormField(
+                    style: TextStyle(color: Colors.orange),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter time in minutes',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        time = int.tryParse(value) ?? 0;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Ingredients:',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: ingredients.length,
+                    itemBuilder: (context, index) {
+                      return TextFormField(
+                        style: const TextStyle(color: Colors.orange),
+                        decoration: InputDecoration(
+                          hintText: 'Enter ingredient ${index + 1}',
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            ingredients[index] = value;
+                          });
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: addIngredient,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
+                      onPrimary: Colors.black,
+                    ),
+                    child: Text('Add Ingredient'),
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Save recipe logic here
+                      Recipe recipe = Recipe(
+                          id: null,
+                          title: name,
+                          ingredients: ingredients,
+                          procedure: procedure,
+                          time: time);
+                      BlocProvider.of<RecipeBloc>(context)
+                          .add(RecipeCreate(recipe));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
+                      onPrimary: Colors.black,
+                    ),
+                    child: Text('Save Recipe'),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Food Image:',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  GestureDetector(
+                    onTap: uploadFoodImage,
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.black,
+                        size: 50,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

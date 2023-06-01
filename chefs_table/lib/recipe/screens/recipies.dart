@@ -1,5 +1,6 @@
 import 'package:chefs_table/recipe/models/recipe.dart';
 import 'package:chefs_table/review/models/review.dart';
+import 'package:chefs_table/user/data_providers/jwt_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,6 +29,12 @@ class Recipes extends StatelessWidget {
           onPressed: () => context.go('/recipe'),
         ),
         actions: [
+          IconButton(
+              onPressed: () {
+                TokenStorage().deleteToken();
+                context.go('/login');
+              },
+              icon: const Icon(Icons.logout_rounded)),
           PopupMenuButton(
             itemBuilder: (BuildContext context) => [
               PopupMenuItem(

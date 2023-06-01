@@ -20,6 +20,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserCreate>((event, emit) async {
       try {
         await userRepository.create(event.user);
+        print("here3");
         final users = await userRepository.fetchAll();
         emit(UserOperationSuccess(users));
       } catch (error) {

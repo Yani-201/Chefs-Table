@@ -31,8 +31,14 @@ class RestaurantDataProvider {
     if (response.statusCode == 201) {
       return Restaurant.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(
-          (jsonDecode(response.body) as Map<String, dynamic>)["message"]);
+      var s = (jsonDecode(response.body) as Map<String, dynamic>)["message"];
+      String message;
+      if (s is List) {
+        message = s[0];
+      } else {
+        message = s;
+      }
+      throw Exception(message);
     }
   }
 
@@ -68,8 +74,14 @@ class RestaurantDataProvider {
     if ((response.statusCode / 100).floor() == 2) {
       return Restaurant.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(
-          (jsonDecode(response.body) as Map<String, dynamic>)["message"]);
+      var s = (jsonDecode(response.body) as Map<String, dynamic>)["message"];
+      String message;
+      if (s is List) {
+        message = s[0];
+      } else {
+        message = s;
+      }
+      throw Exception(message);
     }
   }
 

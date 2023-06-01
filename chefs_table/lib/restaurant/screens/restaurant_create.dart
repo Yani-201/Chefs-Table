@@ -38,201 +38,216 @@ class _CreateRestaurantState extends State<CreateRestaurant> {
           onPressed: () => context.go('/restaurant'),
         ),
       ),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            // Wrap the Column with SingleChildScrollView
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Name:',
-                  style: TextStyle(
-                    color: Colors.deepPurple,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(width: 8),
-                Container(
-                  child: TextFormField(
-                    style: const TextStyle(color: Colors.orange),
-                    decoration: const InputDecoration(
-                      hintText: 'Restaurant Name',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.deepPurple),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.deepPurple),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(height: 16),
-                const Text(
-                  'Location:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                TextFormField(
-                  style: TextStyle(color: Colors.orange),
-                  decoration: const InputDecoration(
-                    hintText: 'Enter location for the restaurant',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
+      body: BlocListener<RestaurantBloc, RestaurantState>(
+        listener: (context, state) {
+          if (state is RestaurantOperationSuccess) {
+            context.go('/restaurant');
+          }
+          if (state is RestaurantOperationFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.redAccent,
+              content: Text("Restaurant Create failed: ${state.error}"),
+              duration: const Duration(seconds: 2),
+            ));
+            BlocProvider.of<RestaurantBloc>(context).add(RestaurantLoad());
+          }
+        },
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              // Wrap the Column with SingleChildScrollView
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Name:',
+                    style: TextStyle(
+                      color: Colors.deepPurple,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      location = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 16),
-                const Text(
-                  'Phone No.:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                TextFormField(
-                  style: TextStyle(color: Colors.orange),
-                  decoration: const InputDecoration(
-                    hintText: "Enter your restaurant's phone number",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      phone = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Menu Items:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: menuItems.length,
-                  itemBuilder: (context, index) {
-                    return TextFormField(
+                  SizedBox(width: 8),
+                  Container(
+                    child: TextFormField(
                       style: const TextStyle(color: Colors.orange),
-                      decoration: InputDecoration(
-                        hintText:
-                            ' ${index + 1}. Menu item like: "Food: Price"(eg. Burger: 100)',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.orange),
+                      decoration: const InputDecoration(
+                        hintText: 'Restaurant Name',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.deepPurple),
                         ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.orange),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.deepPurple),
                         ),
                       ),
                       onChanged: (value) {
                         setState(() {
-                          menuItems[index] = value;
+                          name = value;
                         });
                       },
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: addMenuItem,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                    onPrimary: Colors.black,
+                    ),
                   ),
-                  child: Text('Add Menu Item'),
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    // Save restaurant logic here
-                    // print(location);
-                    // print(menuItems);
-                    // print(phone);
-                    // print(name);
-                    var menuItemSplitted = menuItems.map((e) => e.split(':'));
-                    List<Map<String, dynamic>> menu = [];
-                    for (var i in menuItemSplitted) {
-                      Map<String, dynamic> item = {};
-                      item["name"] = i[0];
-                      item["price"] = i.length > 1 ? i[1] : null;
-                      menu.add(item);
-                    }
-                    Restaurant restaurant = Restaurant(
-                        name: name,
-                        location: location,
-                        phone: phone,
-                        menu: menu);
-                    BlocProvider.of<RestaurantBloc>(context)
-                        .add(RestaurantCreate(restaurant));
-                    context.go('/restaurant');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                    onPrimary: Colors.black,
-                  ),
-                  child: Text('Save Restaurant'),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Food Image:',
-                  style: TextStyle(
-                    color: Colors.orange,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                GestureDetector(
-                  onTap: uploadFoodImage,
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
+                  SizedBox(height: 16),
+                  const Text(
+                    'Location:',
+                    style: TextStyle(
                       color: Colors.orange,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: const Icon(
-                      Icons.camera_alt,
-                      color: Colors.black,
-                      size: 50,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 8),
+                  TextFormField(
+                    style: TextStyle(color: Colors.orange),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter location for the restaurant',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        location = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  const Text(
+                    'Phone No.:',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  TextFormField(
+                    style: TextStyle(color: Colors.orange),
+                    decoration: const InputDecoration(
+                      hintText: "Enter your restaurant's phone number",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        phone = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Menu Items:',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: menuItems.length,
+                    itemBuilder: (context, index) {
+                      return TextFormField(
+                        style: const TextStyle(color: Colors.orange),
+                        decoration: InputDecoration(
+                          hintText:
+                              ' ${index + 1}. Menu item like: "Food: Price"(eg. Burger: 100)',
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            menuItems[index] = value;
+                          });
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: addMenuItem,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
+                      onPrimary: Colors.black,
+                    ),
+                    child: Text('Add Menu Item'),
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Save restaurant logic here
+                      // print(location);
+                      // print(menuItems);
+                      // print(phone);
+                      // print(name);
+                      var menuItemSplitted = menuItems.map((e) => e.split(':'));
+                      List<Map<String, dynamic>> menu = [];
+                      for (var i in menuItemSplitted) {
+                        Map<String, dynamic> item = {};
+                        item["name"] = i[0];
+                        item["price"] = i.length > 1 ? i[1] : null;
+                        menu.add(item);
+                      }
+                      Restaurant restaurant = Restaurant(
+                          name: name,
+                          location: location,
+                          phone: phone,
+                          menu: menu);
+                      BlocProvider.of<RestaurantBloc>(context)
+                          .add(RestaurantCreate(restaurant));
+                      context.go('/restaurant');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
+                      onPrimary: Colors.black,
+                    ),
+                    child: Text('Save Restaurant'),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Food Image:',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  GestureDetector(
+                    onTap: uploadFoodImage,
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        color: Colors.black,
+                        size: 50,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

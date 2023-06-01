@@ -13,6 +13,7 @@ class UserDataProvider {
   String jwtToken = "";
   Map<String, String> header = {
     "Content-Type": "application/json",
+    'Accept': 'application/json',
   };
 
   Future<User> create(User user) async {
@@ -26,12 +27,16 @@ class UserDataProvider {
         }));
     if (response.statusCode == 201) {
       inspect(response);
-      String responded = response.body.replaceAll('\n', '');
-      print("###################$responded");
-      return User.fromJson(jsonDecode(responded));
+      return User.fromJson(json.decode(response.body));
     } else {
-      throw Exception(
-          (jsonDecode(response.body) as Map<String, dynamic>)["message"]);
+      var s = (jsonDecode(response.body) as Map<String, dynamic>)["message"];
+      String message;
+      if (s is List) {
+        message = s[0];
+      } else {
+        message = s;
+      }
+      throw Exception(message);
     }
   }
 
@@ -72,7 +77,7 @@ class UserDataProvider {
   }
 
   Future<User> fetch(int id) async {
-    final response = await http.get(Uri.parse("$_baseUrl/$id"));
+    final response = await http.get(Uri.parse("$_baseUrl/users/$id"));
 
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body));
@@ -83,7 +88,10 @@ class UserDataProvider {
   }
 
   Future<List<User>> fetchAll() async {
-    final response = await http.get(Uri.parse(_baseUrl));
+    final response =
+        await http.get(Uri.parse("$_baseUrl/users"), headers: header);
+    print("#############");
+    print(response.body);
     if (response.statusCode == 200) {
       final users = jsonDecode(response.body) as List;
       return users.map((c) => User.fromJson(c)).toList();

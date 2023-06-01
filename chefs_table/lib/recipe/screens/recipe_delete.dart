@@ -17,27 +17,44 @@ class RecipeRemove extends StatelessWidget {
               onPressed: () => context.go('/recipe'),
             ),
             title: Text("Delete ${recipe.id.toString()}")),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Are you sure you want to delete? "),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<RecipeBloc>(context)
-                          .add(RecipeDelete(recipe.id!));
-                      context.go('/recipe');
-                    },
-                    child: const Text("Yes")),
-                ElevatedButton(
-                    onPressed: () => context.go('/recipeDetail', extra: recipe),
-                    child: const Text("No"))
-              ],
-            )
-          ],
+        body: BlocListener<RecipeBloc, RecipeState>(
+          listener: (context, state) async {
+            {
+              if (state is RecipeOperationSuccess) {
+                context.go('/recipe');
+              }
+              if (state is RecipeOperationFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: Colors.redAccent,
+                  content: Text("Recipe Deletion failed: ${state.error}"),
+                  duration: const Duration(seconds: 3),
+                ));
+                BlocProvider.of<RecipeBloc>(context).add(RecipeLoad());
+              }
+            }
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Are you sure you want to delete? "),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        BlocProvider.of<RecipeBloc>(context)
+                            .add(RecipeDelete(recipe.id!));
+                      },
+                      child: const Text("Yes")),
+                  ElevatedButton(
+                      onPressed: () =>
+                          context.go('/recipeDetail', extra: recipe),
+                      child: const Text("No"))
+                ],
+              )
+            ],
+          ),
         ));
   }
 }

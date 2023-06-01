@@ -1,4 +1,5 @@
 import 'package:chefs_table/restaurant/models/restaurant.dart';
+import 'package:chefs_table/user/data_providers/jwt_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +31,12 @@ class RestaurantDetail extends StatelessWidget {
             onPressed: () => context.go('/restaurant'),
           ),
           actions: [
+            IconButton(
+                onPressed: () {
+                  TokenStorage().deleteToken();
+                  context.go('/login');
+                },
+                icon: const Icon(Icons.logout_rounded)),
             PopupMenuButton(
               itemBuilder: (BuildContext context) => [
                 PopupMenuItem(

@@ -1,4 +1,5 @@
 import 'package:chefs_table/NavBar.dart';
+import 'package:chefs_table/user/data_providers/jwt_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,6 +17,14 @@ class _homeState extends State<Home> {
       drawer: const NavBar(),
       appBar: AppBar(
         leading: BackButton(onPressed: () => context.go('/')),
+        actions: [
+          IconButton(
+              onPressed: () {
+                TokenStorage().deleteToken();
+                context.go('/login');
+              },
+              icon: const Icon(Icons.logout_rounded))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

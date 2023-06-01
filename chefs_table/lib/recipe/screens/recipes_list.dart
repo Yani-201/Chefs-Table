@@ -1,3 +1,4 @@
+import 'package:chefs_table/user/data_providers/jwt_storage.dart';
 import 'package:chefs_table/widget_handler.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,6 +19,14 @@ class RecipeList extends StatelessWidget {
         leading: BackButton(
           onPressed: () => context.go('/home'),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                TokenStorage().deleteToken();
+                context.go('/login');
+              },
+              icon: const Icon(Icons.logout_rounded))
+        ],
         elevation: 7,
       ),
       body: BlocBuilder<RecipeBloc, RecipeState>(

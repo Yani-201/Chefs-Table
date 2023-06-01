@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
             DeleteRestaurant(restaurant: state.extra as Restaurant))),
     GoRoute(path: '/login', builder: ((context, state) => login())),
     GoRoute(path: '/signup', builder: ((context, state) => SignUpForm())),
-    GoRoute(path: '/profile', builder: ((context, state) => const Profile()))
+    // GoRoute(path: '/profile', builder: ((context, state) => const Profile()))
   ]);
   MyApp({super.key});
 
