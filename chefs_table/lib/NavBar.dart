@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
 
