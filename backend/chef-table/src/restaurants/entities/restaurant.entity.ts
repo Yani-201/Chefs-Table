@@ -16,7 +16,7 @@ export class Restaurant {
     phone: string;
     
     @Column({ default: ""})
-    photo: string; 
+    photo:  string; 
 
     @OneToMany(()=>User, (user) => user.likedRestaurants)
     likes: User[];
