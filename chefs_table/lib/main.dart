@@ -22,6 +22,10 @@ import 'package:chefs_table/restaurant/screens/restaurant_list.dart';
 import 'package:chefs_table/restaurant/screens/restaurant_update.dart';
 import 'package:chefs_table/restaurant/screens/restaurat_delete.dart';
 import 'package:chefs_table/signup.dart';
+import 'package:chefs_table/user/blocs/blocs.dart';
+import 'package:chefs_table/user/blocs/user_event.dart';
+import 'package:chefs_table/user/data_providers/user_data_providers.dart';
+import 'package:chefs_table/user/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -95,6 +99,9 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
+          create: (context) => UserRepository(UserDataProvider()),
+        ),
+        RepositoryProvider(
           create: (context) => RecipeRepository(RecipeDataProvider()),
         ),
         RepositoryProvider(
@@ -103,6 +110,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (context) => UserBloc(
+                userRepository: RepositoryProvider.of<UserRepository>(context)),
+          ),
           BlocProvider(
             create: (context) => RecipeBloc(
                 recipeRepository:

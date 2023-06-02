@@ -1,4 +1,6 @@
+import 'package:chefs_table/user/blocs/blocs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class login extends StatefulWidget {
@@ -87,6 +89,11 @@ class _loginState extends State<login> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             // Form is valid, navigate to home screen
+                            print(_usernameController.text);
+                            print(_passwordController.text);
+                            BlocProvider.of<UserBloc>(context).add(UserLogIn(
+                                _usernameController.text,
+                                _passwordController.text));
                             context.go('/home');
                           }
                         },

@@ -20,8 +20,8 @@ class _homeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(16),
-              child: Text(
+              padding: const EdgeInsets.all(16),
+              child: const Text(
                 'Best Food, Best Review',
                 style: TextStyle(
                   fontSize: 24,
@@ -29,12 +29,15 @@ class _homeState extends State<Home> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
-            Text(
-              'Delicious dishes with rave reviews, curated just for you.',
-              style: TextStyle(
-                fontSize: 18,
-                fontStyle: FontStyle.italic,
+            const SizedBox(height: 16),
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text(
+                'Delicious dishes with rave reviews, curated just for you.',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
             SizedBox(height: 16),
@@ -52,9 +55,7 @@ class _homeState extends State<Home> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 children: [
                   // Add scrollable recipe images here
-                  _buildImageContainer('photos/food1.jpg'),
-                  _buildImageContainer('photos/food2.jpg'),
-                  _buildImageContainer('photos/food3.jpg'),
+                  _buildImageContainer('assets/pasta.jpg'),
                 ],
               ),
             ),
@@ -73,9 +74,7 @@ class _homeState extends State<Home> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 children: [
                   // Add scrollable restaurant images here
-                  _buildImageContainer('photos/restaurant1.jpg'),
-                  _buildImageContainer('photos/restaurant2.jpg'),
-                  _buildImageContainer('photos/restaurant2.jpg'),
+                  _buildImageContainer('assets/restaurant.png'),
                 ],
               ),
             ),
