@@ -17,6 +17,7 @@ class _homeState extends State<Home> {
       drawer: const NavBar(),
       appBar: AppBar(
         leading: BackButton(onPressed: () => context.go('/')),
+        //LOGOUT
         actions: [
           IconButton(
               onPressed: () {
