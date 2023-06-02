@@ -10,6 +10,9 @@ export class CreateRestaurantDto {
     @IsNotEmpty()
     @IsString()
     location: string;
+
+    @IsOptional()
+    menu: string;
     
     @IsNotEmpty()
     @IsPhoneNumber('ET')

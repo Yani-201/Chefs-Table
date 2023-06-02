@@ -26,8 +26,8 @@ export class ReviewsService {
         return review
     }
 
-    findAll(): Promise<Review[]> {
-        return this.reviewRepository.find();
+    async findAll(): Promise<Review[]> {
+        return await this.reviewRepository.find({relations: ['reviewer', 'recipe']});
  
     }
 

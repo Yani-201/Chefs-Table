@@ -1,4 +1,5 @@
-import { IsNotEmpty, MinLength , IsOptional } from "class-validator";
+import { Type } from "class-transformer";
+import { IsNotEmpty, MinLength , IsOptional, IsInt } from "class-validator";
 
 export class CreateRecipeDto {
     @IsNotEmpty()
@@ -12,7 +13,12 @@ export class CreateRecipeDto {
     @MinLength(10)
     procedure: string;
 
+    @IsNotEmpty()
+    @Type(() => Number)
+    @IsInt()
+    time: number;
+
     @IsOptional()
-    photo: string;
+    photo?: string;
 
 }

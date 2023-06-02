@@ -12,8 +12,8 @@ import { Repository } from 'typeorm';
 export class RecipesService {
     constructor(@InjectRepository(Recipe) private recipesRepository: Repository<Recipe>, private readonly userService: UsersService) {}
 
-    findAll (): Promise<Recipe[]> {
-        return this.recipesRepository.find();
+    async findAll (): Promise<Recipe[]> {
+        return await this.recipesRepository.find({relations: ['createdBy', 'reviews', 'reviews.reviewer']});
     }
 
     findOne(title: string): Promise<Recipe> {
@@ -35,7 +35,7 @@ export class RecipesService {
             newRecipe.photo = image;
 
         }
-        return this.recipesRepository.save(newRecipe);
+        return await this.recipesRepository.save(newRecipe);
     }
 
     async remove(id: number, user: {userId: number, username: string}) {
@@ -43,7 +43,7 @@ export class RecipesService {
         if (recipe.createdBy.id !== user.userId) {
             throw new ForbiddenException("Action Forbidden.", { cause: new Error(), description: 'Recipes can only be deleted by the users that created them.' })
         }
-        await this.recipesRepository.delete(id);
+        return await this.recipesRepository.delete(id);
         
     }
 
@@ -56,9 +56,23 @@ export class RecipesService {
             updateRecipeDto.photo = image;
 
         }
+        if (updateRecipeDto.time) {
+            recipe.time = updateRecipeDto.time;
+        }
+        if (updateRecipeDto.ingredients) {
+            recipe.ingredients = updateRecipeDto.ingredients;
+        }
+        if (updateRecipeDto.title) {
+            recipe.title = updateRecipeDto.title;
 
-        const updatedRecipe = this.recipesRepository.merge(recipe, updateRecipeDto);
-        return await this.recipesRepository.save(updatedRecipe);
+        }
+        if (updateRecipeDto.procedure) {
+            recipe.procedure = updateRecipeDto.procedure;
+        }
+        if (updateRecipeDto.photo) {
+            recipe.photo = updateRecipeDto.photo;
+        }
+        return await this.recipesRepository.save(recipe);
          
     }
 

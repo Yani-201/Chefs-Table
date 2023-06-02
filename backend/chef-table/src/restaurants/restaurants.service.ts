@@ -20,6 +20,7 @@ export class RestaurantsService {
     if (headChef.worksFor){
       throw new BadRequestException("Chef already works for another restaurant.")
     }
+    createRestaurantDto.menu = JSON.stringify(createRestaurantDto.menu)
     const restaurant = await this.restaurantRepository.create(createRestaurantDto);
     
     restaurant.chefs= headChef;
@@ -32,7 +33,7 @@ export class RestaurantsService {
   }
 
   findAll() {
-    return this.restaurantRepository.find();
+    return this.restaurantRepository.find({relations: ['likes', 'chefs']});
   }
 
   async findOne(id: number, withChefs=false): Promise<Restaurant> {
@@ -61,12 +62,23 @@ export class RestaurantsService {
         throw new ForbiddenException("Action Forbidden.", { cause: new Error(), description: 'Restaurants can only be updated by the chefs that created them.' })
         
     }
-    const updatedRestaurant = this.restaurantRepository.merge(oldRestaurant, updateRestaurantDto);
+
+    updateRestaurantDto.menu = JSON.stringify(updateRestaurantDto.menu);
+    if (updateRestaurantDto.location) {
+      oldRestaurant.location = updateRestaurantDto.location;
+    }
+    if (updateRestaurantDto.menu) {
+      oldRestaurant.menu = updateRestaurantDto.menu;
+    }if (updateRestaurantDto.phone) {
+      oldRestaurant.phone = updateRestaurantDto.phone;
+    }if (updateRestaurantDto.name) {
+      oldRestaurant.name = updateRestaurantDto.name;
+    }
     if (image){
-      updatedRestaurant.photo = image;
+      oldRestaurant.photo = image;
 
     }
-    return await this.restaurantRepository.save(updatedRestaurant);
+    return await this.restaurantRepository.save(oldRestaurant);
   }
   
   async remove(id: number, chef) {
@@ -75,8 +87,7 @@ export class RestaurantsService {
         throw new ForbiddenException("Action Forbidden.", { cause: new Error(), description: 'Restaurants can only be updated by the chefs that created them.' })
         
     }
-    await this.restaurantRepository.delete(id);
-    return oldRestaurant;
+    return await this.restaurantRepository.delete(id);
   
   }
 }

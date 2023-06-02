@@ -1,17 +1,19 @@
-import { MinLength , IsOptional, IsNotEmpty } from "class-validator";
+import { Type } from "class-transformer";
+import { MinLength , IsOptional, IsNotEmpty, IsNumberString, IsNumber, IsInt } from "class-validator";
 
 export class UpdateRecipeDto {
     @IsOptional()
-    @IsNotEmpty()
     title: string;
 
     @IsOptional()
-    @IsNotEmpty()
-    @MinLength(1)
     ingredients: string[];
 
     @IsOptional()
-    @IsNotEmpty()
+    @Type(() => Number)
+    @IsInt()
+    time: number;
+
+    @IsOptional()
     @MinLength(10)
     procedure: string;
     

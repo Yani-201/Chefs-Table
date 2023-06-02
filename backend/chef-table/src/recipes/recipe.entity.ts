@@ -16,7 +16,10 @@ export class Recipe{
     @Column("longtext")
     procedure: string;
 
-    @Column({ default: ""})
+    @Column()
+    time: number;
+
+    @Column({ default: "", nullable: true})
     photo: string; 
     
     @Column('int', { default: 0})

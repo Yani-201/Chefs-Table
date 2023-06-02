@@ -55,7 +55,8 @@ export class RecipesController {
 	@Post() 
 	@UseInterceptors(FileInterceptor('photo', storage))
 	createRecipe(@Body() createRecipeDto: CreateRecipeDto, @Request() req, @UploadedFile() file: Express.Multer.File) {
-		return this.recipesService.createRecipe(createRecipeDto, req.user, file.path);
+		console.log(createRecipeDto);
+		return this.recipesService.createRecipe(createRecipeDto, req.user, file?.path);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -64,6 +65,7 @@ export class RecipesController {
     @UsePipes(ValidationPipe)
 	@Delete(":id")
 	removeRecipe(@Param('id', ParseIntPipe) id:number, @Request() req) {
+		console.log('here');
 		return this.recipesService.remove(id, req.user);
 	}
 
@@ -74,7 +76,7 @@ export class RecipesController {
 	@Patch(':id')
 	@UseInterceptors(FileInterceptor('photo', storage))
 	updateRecipe(@Param('id', ParseIntPipe) id: number, @Body() updateRecipeDto: UpdateRecipeDto, @Request() req, @UploadedFile() file: Express.Multer.File) {
-		return this.recipesService.updateRecipe(id, updateRecipeDto, req.user, file.path);
+		return this.recipesService.updateRecipe(id, updateRecipeDto, req.user, file?.path);
 	}
 
 	

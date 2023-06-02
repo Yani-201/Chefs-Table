@@ -11,6 +11,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '../restaurantCovers'), {prefix: '/restaurantCovers'})
   app.useStaticAssets(join(__dirname, '../profilePhotos'), {prefix: '/profilePhotos'})
   
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();

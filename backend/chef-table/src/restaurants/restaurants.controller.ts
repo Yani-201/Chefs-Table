@@ -33,6 +33,7 @@ export class RestaurantsController {
   @Post()
 	@UseInterceptors(FileInterceptor('photo', storage))
   create(@Body() createRestaurantDto: CreateRestaurantDto, @Request() req, @UploadedFile() file: Express.Multer.File) {
+    console.log(createRestaurantDto);
     return this.restaurantsService.create(createRestaurantDto, req.user, file?.path);
   }
 
