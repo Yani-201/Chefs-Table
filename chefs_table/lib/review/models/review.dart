@@ -9,7 +9,7 @@ class Review {
   final Recipe? recipe;
   final User? reviewer;
 
-  Review({
+  Review ({
     this.id,
     required this.rating,
     required this.review,
