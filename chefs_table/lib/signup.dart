@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:chefs_table/user/blocs/blocs.dart';
+import 'package:chefs_table/user/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,7 +14,7 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  String? _fullName;
+  String? _email;
   String? _userName;
   String? _password;
   String? _confirmPassword;
@@ -64,16 +67,16 @@ class _SignUpFormState extends State<SignUpForm> {
                       SizedBox(height: 10),
                       TextFormField(
                         decoration: const InputDecoration(
-                          hintText: 'Enter your full name',
+                          hintText: 'Enter your email',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your full name';
+                            return 'Please enter your email address';
                           }
                           return null;
                         },
                         onSaved: (value) {
-                          _fullName = value;
+                          _email = value;
                         },
                       ),
                       TextFormField(
@@ -116,6 +119,7 @@ class _SignUpFormState extends State<SignUpForm> {
                           hintText: 'Confirm your password',
                         ),
                         validator: (value) {
+                          _formKey.currentState!.save();
                           if (value == null || value.isEmpty) {
                             return 'Please confirm your password';
                           } else if (_password != _confirmPassword) {
@@ -164,11 +168,18 @@ class _SignUpFormState extends State<SignUpForm> {
                             if (_formKey.currentState!.validate()) {
 // Process data.
                               _formKey.currentState!.save();
-                              print('Full Name : $_fullName');
+                              print('Full Name : $_email');
                               print('User Name : $_userName');
                               print('Password : $_password');
                               print('Confirm Password : $_confirmPassword');
                               print('User Type : $_userType');
+                              User user = User(
+                                  username: _userName!,
+                                  email: _email!,
+                                  password: _password,
+                                  role: [_userType ?? 'user']);
+                              BlocProvider.of<UserBloc>(context)
+                                  .add(UserCreate(user));
                               context.go('/home');
                             }
                           },

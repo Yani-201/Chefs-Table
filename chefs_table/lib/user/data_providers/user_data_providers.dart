@@ -22,10 +22,13 @@ class UserDataProvider {
           "username": user.username,
           "password": user.password,
           "email": user.email,
-          "role": [user.role ?? "user"],
+          "roles": user.role ?? ["user"],
         }));
     if (response.statusCode == 201) {
-      return User.fromJson(jsonDecode(response.body));
+      inspect(response);
+      String responded = response.body.replaceAll('\n', '');
+      print("###################$responded");
+      return User.fromJson(jsonDecode(responded));
     } else {
       throw Exception(
           (jsonDecode(response.body) as Map<String, dynamic>)["message"]);
@@ -55,7 +58,7 @@ class UserDataProvider {
       "oldPassword": user.oldPassword,
       "newUsername": user.username,
       "newPassword": user.password,
-      "newRoles": [user.role],
+      "newRoles": user.role,
     });
     final response = await http.patch(Uri.parse("$_baseUrl/$id"),
         headers: header, body: updateBody);
@@ -109,12 +112,11 @@ class UserDataProvider {
         headers: header,
         body: jsonEncode({"username": username, "password": password}));
 
-    print("############################${response.body.replaceAll(' ', '')}");
     if ((response.statusCode / 100).floor() == 2) {
       inspect(response);
       String responded = response.body.replaceAll('\n', '');
       String token = jsonDecode(responded)["access_token"];
-      print("FROM DATAPROV$token");
+      print("#####$token###########");
       TokenStorage().saveToken(token);
       return token;
     } else {

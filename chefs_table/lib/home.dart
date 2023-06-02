@@ -14,7 +14,9 @@ class _homeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavBar(),
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: BackButton(onPressed: () => context.go('/')),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -17,7 +17,7 @@ class User {
   final List<Restaurant?>? likedRestaurants;
 
   User({
-    required this.id,
+    this.id,
     required this.username,
     required this.email,
     this.photo,
