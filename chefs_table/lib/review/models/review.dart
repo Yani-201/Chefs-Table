@@ -2,7 +2,7 @@
 import 'package:chefs_table/recipe/models/recipe.dart';
 import 'package:chefs_table/user/models/user.dart';
 
-class  Review {
+class Review {
   final int? id;
   final int rating;
   final String review;
