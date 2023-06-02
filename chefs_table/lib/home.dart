@@ -11,6 +11,7 @@ class Home extends StatefulWidget {
 
 class _homeState extends State<Home> {
   @override
+  
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavBar(),
@@ -29,6 +30,7 @@ class _homeState extends State<Home> {
                 ),
               ),
             ),
+            
             const SizedBox(height: 16),
             const Padding(
               padding: EdgeInsets.all(12.0),
@@ -40,6 +42,7 @@ class _homeState extends State<Home> {
                 ),
               ),
             ),
+            
             SizedBox(height: 16),
             TextButton(
               child: const Text("Recipies"),
@@ -47,6 +50,7 @@ class _homeState extends State<Home> {
                 context.push('/recipe');
               },
             ),
+            
             SizedBox(height: 8),
             Container(
               height: 200,
@@ -59,6 +63,7 @@ class _homeState extends State<Home> {
                 ],
               ),
             ),
+            
             SizedBox(height: 16),
             TextButton(
               child: const Text("Restuarant"),
@@ -90,6 +95,7 @@ class _homeState extends State<Home> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
       ),
+      
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: Image.asset(
@@ -100,6 +106,8 @@ class _homeState extends State<Home> {
     );
   }
 }
+
+//removed code
 // Column(
 //         children: [
 //           const Text("Welcome to chef's table"),
@@ -118,3 +126,6 @@ class _homeState extends State<Home> {
 //           Container()
 //         ],
 //       ),
+
+
+
