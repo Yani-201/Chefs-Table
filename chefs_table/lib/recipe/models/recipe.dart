@@ -29,7 +29,7 @@ class Recipe {
     if (json['reviews'] != null && json['reviews'].length > 0) {
       reviews = json['reviews']?.map((e) => Review.fromJson(e))?.toList();
     }
-    return Recipe(
+    return  Recipe(
         id: json['id'],
         title: json['title'],
         procedure: json['procedure'],
