@@ -22,8 +22,8 @@ export class User {
   @Column('simple-array')
   roles: string[];
   
-  @Column({ default: ""})
-  photo: string; 
+  @Column({ default: "s", nullable: true})
+  photo?: string; 
 
   @OneToMany(() => Review, (review) => review.reviewer)
   reviews: Review[];
