@@ -21,7 +21,6 @@ class Recipes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(recipe.reviews);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -29,6 +28,7 @@ class Recipes extends StatelessWidget {
           onPressed: () => context.go('/recipe'),
         ),
         actions: [
+          //LOGOUT
           IconButton(
               onPressed: () {
                 TokenStorage().deleteToken();

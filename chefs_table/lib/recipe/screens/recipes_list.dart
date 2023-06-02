@@ -20,6 +20,7 @@ class RecipeList extends StatelessWidget {
           onPressed: () => context.go('/home'),
         ),
         actions: [
+          //LOGOUT
           IconButton(
               onPressed: () {
                 TokenStorage().deleteToken();
