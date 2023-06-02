@@ -1,5 +1,5 @@
 import { AuthService } from './auth/auth.service';
-import { Controller, Get, UseGuards, Request, Post } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Post, HttpCode, Header } from '@nestjs/common';
 import { AppService } from './app.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 
@@ -12,6 +12,8 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)  // for checking if user is in database
   @Post('login')
+  @HttpCode(200)
+  @Header('Content-Type', 'application/json')
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
